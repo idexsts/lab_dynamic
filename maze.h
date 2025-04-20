@@ -7,6 +7,8 @@ using namespace std;
 #include"wall.h"
 #include"door.h"
 #include<iostream>
+class View;
+#include <vector>
 
 
 enum Direction {
@@ -20,13 +22,18 @@ class Maze {
 	int w;
 	Hero v;
 	void heroPosition(int i, int j);
-	Tile* ** lab;
+	Tile*** lab;
+	vector <View*> allObservers;
 	
 public:
-	void update() {
-		system("cls");
+	void update();
+	void addObserver(View* o);
+	int getH() { return h; }
+	int getW() { return w; }
+	char getTile(int i, int j) {
+		return lab[i][j]->getSymbol();
 	}
-	
+	void printView(ostream&out);
 	
 	Maze();
 	Maze(const Maze& m);
@@ -34,5 +41,5 @@ public:
 	void move(Direction d);
 	friend ostream& operator << (ostream& out, Maze& m);
 	Maze& operator=(const Maze& m);
-	Hero getHero() const { return h; }
+	Hero getHero() const { return v; }
 };

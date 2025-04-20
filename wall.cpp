@@ -1,8 +1,17 @@
 #include "wall.h"
+#include "exepts.h"
 
 Tile* Wall::operator+(Hero& p) {
 	p.lose_hp();
-	return new HeroCell();
+	if (p.lives() <= 0) {
+		throw new HpError;
+		return new HeroCell();
+	}
+	else {
+		throw new WallError;
+		
+	}
+	
 }
 Tile* Wall::operator-(Hero& p) {
 	return new Cell();

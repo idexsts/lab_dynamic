@@ -1,13 +1,14 @@
 #include "door.h"
+#include "exepts.h"
 
 Tile* Door::operator+(Hero& p) {
-	//if (p.stock() == 3) {
-		//cout << "you won!" << endl;
+	if (p.stock() >= 3) {
+		throw new Win;
 		return new HeroCell();
-	
-	//else {
-		//cout << "you need more coins!" << endl;
-	//}
+	}
+	else {
+		throw new CoinsError;
+	}
 }
 Tile* Door::operator-(Hero& p) {
 	return new Door();

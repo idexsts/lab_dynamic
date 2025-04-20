@@ -11,4 +11,7 @@ public:
     Tile* operator-(Hero& p);
     void visit(ostream& out) const;
     Tile* copyElem();
+    char getSymbol() {
+        return 'H';
+    }
 };

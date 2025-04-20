@@ -7,10 +7,10 @@
 using namespace std;
 
 class Joystick {
-	Maze& m;
+	Maze* m;
 public:
-	Joystick(Maze& _m) : m(_m) {}
-	void start() {
+	Joystick(Maze* _m) : m(_m) {}
+	void go() {
 		unsigned char val = 0;
 		while (val != 'q')
 		{
@@ -19,17 +19,17 @@ public:
 			
 			switch (val)
 			{
-			case 's':
-				m.move(DOWN);
+			case 80:
+				m->move(DOWN);
 				break;
-			case 'w':
-				m.move(UP);
+			case 72:
+				m->move(UP);
 				break;
-			case 'a':
-				m.move(LEFT);
+			case 75:
+				m->move(LEFT);
 				break;
-			case 'd':
-				m.move(RIGHT);
+			case 77:
+				m->move(RIGHT);
 				break;
 			}
 		}

@@ -9,13 +9,14 @@ using namespace std;
 
 class Tile {
 public:
-    virtual Tile* operator+(Hero& p) = 0; //указатель на функцию типа Tile, возвращает указатель на объект типа Tile
+    virtual Tile* operator+(Hero& p) = 0; //указатель на функцию типа Tile, возвращает указатель на новый объект типа Tile
     virtual Tile* operator-(Hero& p) = 0; //то же самое, что и выше
     virtual void visit(ostream& out) const = 0; // отправляет в поток вывода определенный тип клетки
     friend ostream& operator <<(ostream& out, Tile* c) // возвращает этот поток вывода, в место куда указывает указатель помещается 
-    {                                                  //новый элементик
-        (*c).visit(out);
+    {                                                  //новый элементик-->нужно в вывод лабиринта, где перегрузка 
+        (*c).visit(out);                               //вывода<< уже для Maze
         return out;
     }
-    virtual Tile* copyElem() = 0; // копирует клеточку 
+    virtual Tile* copyElem() = 0; // копирует объекты 
+    virtual char getSymbol() = 0; //для printView (обзор тока для героя)(printView->getTile->getSymbol)
 };

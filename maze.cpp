@@ -1,12 +1,20 @@
 #include "maze.h"
 #include <conio.h>
 #include <fstream>
+#include "view.h"
+#include "exepts.h"
+//#include <chrono>
+//#include <thread>
+
+
+
+
 void Maze::heroPosition(int i, int j) {
 	if (((i < 0) || (j < 0) || (i >= h) || (j >= w))) {
 		return;
 	}
 	else {
-		
+		try {
 			Tile* new_cell = *lab[i][j] + v;
 			if (new_cell != lab[i][j]) {
 				delete lab[i][j];
@@ -18,8 +26,12 @@ void Maze::heroPosition(int i, int j) {
 				lab[v.getX()][v.getY()] = old_cell;
 			}
 			v.move(i, j);
-
-			_getch();
+		}
+		catch (Error* err) {
+			update();
+			err->showErr();
+			delete err;
+		}
 	}
 	update();
 	
@@ -62,22 +74,22 @@ Maze::Maze(const Maze& m) {
 Maze::Maze()
 {
 	ifstream file("lab.txt");
-	
+	if (!file.is_open()) {
+		cout << "it doesn't open";
+	}
 	file >> h;
 	file >> w;
 	lab = new Tile * *[h];
 	for (int i = 0; i < h; i++) {
-		for (int j = 0; j < w; j++) {
-			lab[i] = new Tile * [w];
-		}
+		lab[i] = new Tile * [w];	
 	}
-	update();
+	//update();
 	
 	for (int i = 0; i < h; i++) {
 		for (int j = 0; j < w; j++) {
 			char c;
 			file >> c;
-			if (c == ' ') {
+			if (c == '.') {
 				lab[i][j] = new Cell();
 			}
 			if (c == '$') {
@@ -137,11 +149,45 @@ ostream& operator << (ostream& out, Maze& m)
 			//}
 			//else
 			//{
-				out << m.lab[i][j];
+				out << m.lab[i][j]<<" ";
 
 			//}
 		}
 		out << endl;
 	}
 	return out;
+}
+
+void Maze::update() {
+	system("cls");
+	for (View* o : allObservers) {
+		o->event(*this);
+	}
+}
+
+void Maze::addObserver(View* o) {
+	
+		allObservers.push_back(o);
+		update();
+}
+
+void Maze::printView(ostream&out) {
+	int ip = v.getX();
+	int jp = v.getY();
+	for (int i = ip - 1; i <= ip + 1; i++)
+	{
+		for (int j = jp - 1; j <= jp + 1; j++)
+		{
+			if ((i < 0) || (j < 0) || (i >= h) || (j >= w))
+			{
+				out << "//";
+			}
+			else
+			{
+				out << getTile(i, j)<<" ";
+
+			}
+		}
+		out << endl;
+	}
 }

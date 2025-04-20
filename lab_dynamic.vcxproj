@@ -140,10 +140,12 @@
     <ClInclude Include="coin.h" />
     <ClInclude Include="door.h" />
     <ClInclude Include="empty_cell.h" />
+    <ClInclude Include="exepts.h" />
     <ClInclude Include="hero_cell.h" />
     <ClInclude Include="joystick.h" />
     <ClInclude Include="maze.h" />
     <ClInclude Include="tile.h" />
+    <ClInclude Include="view.h" />
     <ClInclude Include="wall.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
